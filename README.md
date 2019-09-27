@@ -1,4 +1,5 @@
-# inpredo
+![image](inpredo_logo.png)
+
 Inpredo (INtelligent PREDictions) is an AI which literally looks into financial charts and predicts stock movements.
 
 ### First Step - Create Training Data:
@@ -38,4 +39,4 @@ There is another part of the project which actually trades in real time using no
 
 For people who wants to go experimental, don't forget that you can lose money in real markets and I am not accountable for your stupitidy if you choose to use this project to trade with your own money.
 
-
+Note: Please check out the medium file for more info.

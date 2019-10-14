@@ -6,11 +6,11 @@ import uuid
 
 # Input your csv file here with historical data
 
-ad = genfromtxt('/financial_data/eurusd.csv', delimiter=',' ,dtype=str)
+ad = genfromtxt('../financial_data/eurusd.csv', delimiter=',' ,dtype=str)
 pd = np.flipud(ad)
 
-buy_dir = './data/train/buy/'
-sell_dir = './data/train/sell/'
+buy_dir = '../data/train/buy/'
+sell_dir = '../data/train/sell/'
 
 def convolve_sma(array, period):
     return np.convolve(array, np.ones((period,))/period, mode='valid')
@@ -24,15 +24,18 @@ def graphwerk(start, finish):
     date = []
     for x in range(finish-start):
 
-        open.append(float(pd[start][4]))
-        high.append(float(pd[start][5]))
-        low.append(float(pd[start][6]))
-        close.append(float(pd[start][7]))
-        volume.append(float(pd[start][8]))
+# Below filtering is valid for eurusd.csv file. Other financial data files have different orders so you need to find out
+# what means open, high and close in their respective order.
+
+        open.append(float(pd[start][1]))
+        high.append(float(pd[start][2]))
+        low.append(float(pd[start][3]))
+        close.append(float(pd[start][4]))
+        volume.append(float(pd[start][5]))
         date.append(pd[start][0])
         start = start + 1
 
-    close_next = float(pd[finish][5])
+    close_next = float(pd[finish][4])
 
     sma = convolve_sma(close, 5)
     smb = list(sma)
@@ -85,5 +88,3 @@ iter = 0
 for x in range(len(pd)-4):
    graphwerk(iter, iter+12)
    iter = iter + 2
-
-

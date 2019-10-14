@@ -49,7 +49,6 @@ batch_size = 128
 lr = 0.001
 chanDim =3
 
-
 model = Sequential()
 model.add(Convolution2D(nb_filters1, conv1_size, conv1_size, border_mode ='same', input_shape=(img_height, img_width , 3)))
 model.add(Activation('relu'))

@@ -39,4 +39,4 @@ There is another part of the project which actually trades in real time using no
 
 For people who wants to go experimental, don't forget that you can lose money in real markets and I am not accountable for your stupitidy if you choose to use this project to trade with your own money.
 
-Note: Please check out the medium file for more info.
+Medium article for in depth explanation of the project: https://medium.com/@cderinbogaz/making-a-i-that-looks-into-trade-charts-62e7d51edcba

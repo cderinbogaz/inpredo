@@ -8,10 +8,10 @@ from keras.models import Sequential, load_model
 
 img_width, img_height = 150, 150
 model_path = '../src/models/model.h5'
-weights_path = './src/models/weights'
+weights_path = '../src/models/weights'
 model = load_model(model_path)
-test_path = './data/validation'
-csv_path = './src/models/results.csv'
+test_path = '../data/validation'
+csv_path = '../src/models/results.csv'
 
 
 def predict(file):

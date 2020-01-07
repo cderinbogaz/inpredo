@@ -11,8 +11,6 @@ model_path = '../src/models/model.h5'
 weights_path = '../src/models/weights'
 model = load_model(model_path)
 test_path = '../data/validation'
-csv_path = '../src/models/results.csv'
-
 
 def predict(file):
   x = load_img(file, target_size=(img_width,img_height))
@@ -30,67 +28,66 @@ def predict(file):
       print("Predicted answer: Not confident")
       answer = 'n/a'
       print(result)
-    return answer
   else:
     if result[1] > 0.9:
-        print("Predicted answer: Sell")
-        answer = 'sell'
-        print(result)
+      print("Predicted answer: Sell")
+      answer = 'sell'
+      print(result)
     else:
-        print("Predicted answer: Not confident")
-        answer = 'n/a'
-        print(result)
-    return answer
+      print("Predicted answer: Not confident")
+      answer = 'n/a'
+      print(result)
+
+  return answer
 
 
-def predict_files(test_path):
-  truebuy = 0
-  falsebuy = 0
-  truesell = 0
-  falsesell = 0
-  na = 0
-  for i, ret in enumerate(os.walk(str(test_path) + '/buy')):
-    for i, filename in enumerate(ret[2]):
-      if filename.startswith("."):
-        continue
-      print("Label: buy")
-      result = predict(ret[0] + '/' + filename)
-      if result == "buy":
-        truebuy += 1
-      elif result == 'n/a':
-        print('no action')
-        na +=1
-      elif result == 'sell':
-        falsebuy += 1
+tb = 0
+ts = 0
+fb = 0
+fs = 0
+na = 0
 
+for i, ret in enumerate(os.walk(data_path + '/test/buy')):
+  for i, filename in enumerate(ret[2]):
+    if filename.startswith("."):
+      continue
+    print("Label: buy")
+    result = predict(ret[0] + '/' + filename)
+    if result == "buy":
+      tb += 1
+    elif result == 'n/a':
+      print('no action')
+      na += 1
+    else:
+      fb += 1
 
-  for i, ret in enumerate(os.walk(str(test_path) + '/sell')):
-    for i, filename in enumerate(ret[2]):
-      if filename.startswith("."):
-        continue
-      print("Label: sell")
-      result = predict(ret[0] + '/' + filename)
-      if result == "sell":
-        truesell += 1
-      elif result == 'n/a':
-        print('no action')
-        na += 1
-      elif result == 'buy':
-        falsesell += 1
+for i, ret in enumerate(os.walk(data_path + '/test/sell')):
+  for i, filename in enumerate(ret[2]):
+    if filename.startswith("."):
+      continue
+    print("Label: sell")
+    result = predict(ret[0] + '/' + filename)
+    if result == "sell":
+      ts += 1
+    elif result == 'n/a':
+      print('no action')
+      na += 1
+    else:
+      fs += 1
 
-  print("True buy: ", truebuy)
-  print("True sell: ", truesell)
-  print("False buy: ", falsebuy)  # important
-  print("False sell: ", falsesell)
-  print("no action:", na)
-  precision = truesell / (truesell + falsesell)
-  precision2 = truebuy / (truebuy + falsebuy)
-  recall = truebuy / (truebuy + falsesell)
-  print("Sell Precision: ", precision)
-  print("Buy Precision", precision2)
-  print("Recall: ", recall)
-  precision1 = (truesell + truebuy) / (truesell + truebuy + falsesell + falsebuy)
-  print("Precision: ", precision1)
-  f_measure = (2 * recall * precision) / (recall + precision)
-  print("F-measure: ", f_measure)
-  return precision1, na
+"""
+Check metrics
+"""
+print("True buy: ", tb)
+print("True sell: ", ts)
+print("False buy: ", fb)  # important
+print("False sell: ", fs)
+print("No action", na)
+
+precision = (tb+ts) / (tb + ts + fb + fs)
+recall = tb / (tb + fs)
+print("Precision: ", precision)
+print("Recall: ", recall)
+
+f_measure = (2 * recall * precision) / (recall + precision)
+print("F-measure: ", f_measure)
